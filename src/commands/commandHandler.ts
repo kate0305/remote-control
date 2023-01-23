@@ -29,7 +29,7 @@ export const commandHandler = async (data: string): Promise<void | string> => {
       case 'rectangle':
         result = await getRectangle(number, length);
         break;
-      case 'square ':
+      case 'square':
         result = await getSquare(number);
         break;
 

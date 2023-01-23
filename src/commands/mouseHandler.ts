@@ -33,17 +33,6 @@ export const getRectangle = async (width: number, length: number) => {
   return `rectangle has width: ${width}px and length: ${length}px`;
 };
 
-export const getRectangle = async (width: number, length: number) => {
-  mouse.config.mouseSpeed = 150;
-  await mouse.pressButton(Button.LEFT);
-  await mouse.move(right(length));
-  await mouse.move(down(width));
-  await mouse.move(left(length));
-  await mouse.move(up(width));
-  await mouse.releaseButton(Button.LEFT);
-  return `rectangle has width: ${width}px and length: ${length}px`;
-};
-
 export const getSquare = async (width: number) => {
   mouse.config.mouseSpeed = 150;
   await mouse.pressButton(Button.LEFT);

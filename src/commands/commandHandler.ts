@@ -1,4 +1,4 @@
-import { getDown, getLeft, getPosition, getRight, getUp, getRectangle } from './mouseHandler.js';
+import { getDown, getLeft, getPosition, getRight, getUp, getRectangle, getSquare } from './mouseHandler.js';
 import { handleErrorMessage, parseCommand } from '../utils.js';
 
 export const commandHandler = async (data: string): Promise<void | string> => {

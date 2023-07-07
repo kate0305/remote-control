@@ -1,7 +1,7 @@
 import { httpServer } from './http_server/index.js';
 import WebSocket from 'ws';
 import { wss } from './web_socket_server/index.js';
-import { commandHandler } from './command-handler.js';
+import { requestHandler } from './command-handler.js';
 import { EOL } from 'node:os';
 import { handleErrorMessage } from './utils/utils.js';
 
@@ -17,7 +17,7 @@ wss.on('connection', (ws: WebSocket) => {
     console.log(`Websocket parameter: address: ${parameters.address}; port: ${parameters.port}`);
 
     ws.on('message', (chank: string) => {
-      const response = commandHandler(chank, ws);
+      const response = requestHandler(chank, ws);
       const result = JSON.stringify(response);
       console.log(`Result: ${result}`);
     });

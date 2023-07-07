@@ -78,3 +78,9 @@ export type User  = {
   login: string;
   password: string;
 }
+
+export type NewUser = {
+  id: number;
+  login: string;
+  password: string;
+}

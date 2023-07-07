@@ -1,7 +1,7 @@
 import { httpServer } from './http_server/index.js';
 import WebSocket from 'ws';
 import { wss } from './web_socket_server/index.js';
-import { requestHandler } from './command-handler.js';
+import { requestHandler } from './request-handler.js';
 import { EOL } from 'node:os';
 import { handleErrorMessage } from './utils/utils.js';
 

@@ -2,14 +2,14 @@ import { clients, users } from '../db/db.js';
 import { WebSocket } from 'ws';
 import { mapUsers } from '../user/create-user.js';
 import { AddToRoomReq, Room } from '../utils/types.js';
-import { createGame } from '../game/handler-game.js';
+import { createGame } from '../game/game-handler.js';
 
 const rooms = new Map<number, Room>();
 
 const getUser = (ws: WebSocket) => {
   const userId = mapUsers.get(ws);
   const userData = users.find((user) => user.id === userId);
-  return {userId, userData};
+  return { userId, userData };
 };
 
 export const createRoom = (ws: WebSocket) => {

@@ -1,6 +1,8 @@
 import { handleErrorMessage, parseData } from './utils/utils.js';
 import WebSocket from 'ws';
 import { createUser } from './user/create-user.js';
+import { createRoom, addUserToRoom, updateRoom } from './room/room-handler.js';
+import { addShips, getAttackData } from './game/game-handler.js';
 
 export const requestHandler = (data: string, ws: WebSocket) => {
   try {
@@ -9,23 +11,24 @@ export const requestHandler = (data: string, ws: WebSocket) => {
     switch (cmd) {
       case 'reg':
         createUser(dataNestedParsed, ws);
+        updateRoom();
         break;
 
-      // case 'create_room':
-      //   createRoom(ws);
-      //   break;
+      case 'create_room':
+        createRoom(ws);
+        break;
 
-      // case 'add_user_to_room':
-      //   addUserToRoom(dataNestedParsed, ws);
-      //   break;
+      case 'add_user_to_room':
+        addUserToRoom(dataNestedParsed, ws);
+        break;
 
-      // case 'add_ships':
-      //   addShips(dataNestedParsed, ws);
-      //   break;
+      case 'add_ships':
+        addShips(dataNestedParsed, ws);
+        break;
 
-      // case 'attack':
-      //   getAttackData(dataNestedParsed);
-      //   break;
+      case 'attack':
+        getAttackData(dataNestedParsed, ws);
+        break;
 
       // case 'randomAttack':
       //   handleRandomAttack(dataNestedParsed);
@@ -35,7 +38,7 @@ export const requestHandler = (data: string, ws: WebSocket) => {
         console.log('Unknown request!');
         break;
     }
-    console.log(`Received request: ${cmd}, received data: ${dataNestedParsed}`);
+    console.log(`Received request: ${cmd}, received data: ${JSON.stringify(dataNestedParsed)}`);
   } catch (err) {
     const errMessage = handleErrorMessage(err);
     console.log(errMessage);

@@ -1,3 +1,5 @@
+import { WebSocket } from 'ws';
+
 export type Data = {
   id: number;
   type: string;
@@ -52,15 +54,15 @@ export type Ships = {
 };
 
 export type ShipsPosition = {
-  x: number,
-  y: number,
+  x: number;
+  y: number;
 };
 
 export type AttackDataReq = {
-  gameId: number,
-  x: number,
-  y: number,
-  indexPlayer: number,
+  gameId: number;
+  x: number;
+  y: number;
+  indexPlayer: number;
 };
 
 export type Res = {
@@ -74,13 +76,31 @@ export type DataTypes = {
   add_user_to_room: AddToRoomReq;
 };
 
-export type User  = {
+export type User = {
   login: string;
   password: string;
-}
+};
 
 export type NewUser = {
   id: number;
   login: string;
   password: string;
-}
+};
+
+export type UserInRoom = {
+  index: number;
+  name: string;
+  ws: WebSocket;
+};
+
+export type Room = {
+  roomId: number;
+  roomUsers: UserInRoom[];
+};
+
+export type UserDataForGame = {
+  userId: number;
+  ws: WebSocket;
+  userShips: Ships[];
+  isTurn: boolean;
+};

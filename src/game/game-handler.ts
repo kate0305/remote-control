@@ -1,5 +1,13 @@
 import { WebSocket } from 'ws';
-import { UserInRoom, ShipsDataReq, AttackDataReq, UserDataForGame, Room, ShipsPosition } from '../utils/types.js';
+import {
+  UserInRoom,
+  ShipsDataReq,
+  AttackDataReq,
+  UserDataForGame,
+  Room,
+  ShipsPosition,
+  RandomAttackReq,
+} from '../utils/types.js';
 
 const games = new Map<number, UserDataForGame[]>();
 const dataUserAttack = new Map<number, AttackInfo>();
@@ -14,6 +22,7 @@ export const createGame = (room: Room) => {
   room.roomUsers.forEach((user) => {
     const game = createGameResponse(room?.roomUsers, user.index, idGame);
     user.ws.send(JSON.stringify(game));
+    console.log(`Response: ${JSON.stringify(game)}`);
   });
 };
 
@@ -62,12 +71,16 @@ const startGame = (game: UserDataForGame[]) => {
       id: 0,
     };
     ws.send(JSON.stringify(answer));
+    console.log(`Response: ${JSON.stringify(answer)}`);
   });
 
   setTurn(game, usersWs);
 };
 
-export const getAttackData = (data: AttackDataReq, ws: WebSocket) => {
+export const getAttackData = (data: AttackDataReq, ws: WebSocket, type: string) => {
+  if (type === 'randomAttack') {
+    handleRandomAttack(data, ws);
+  }
   const game = games.get(data.gameId);
   const user = game?.find((user) => user.userId !== data.indexPlayer);
   const ships = user?.userShips.map((ship) => ship.position);
@@ -96,8 +109,9 @@ const attackResponse = (id: number, ws: WebSocket) => {
     data: dataAnswer,
     id: 0,
   };
-  console.log(answer)
+  console.log(answer);
   ws.send(JSON.stringify(answer));
+  console.log(`Response: ${JSON.stringify(answer)}`);
 };
 
 const setTurn = (game: UserDataForGame[], users: WebSocket[]) => {
@@ -109,4 +123,17 @@ const setTurn = (game: UserDataForGame[], users: WebSocket[]) => {
     id: 0,
   };
   users?.forEach((ws) => ws.send(JSON.stringify(answerTurn)));
+};
+
+export const handleRandomAttack = (data: RandomAttackReq, ws: WebSocket) => {
+  const getPosition = () => Math.floor(Math.random() * 9);
+  const info: AttackInfo = {
+    position: {
+      x: getPosition(),
+      y: getPosition(),
+    },
+    status: '',
+  };
+  dataUserAttack.set(data.indexPlayer, info);
+  attackResponse(data.indexPlayer, ws);
 };

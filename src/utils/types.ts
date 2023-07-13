@@ -104,3 +104,8 @@ export type UserDataForGame = {
   userShips: Ships[];
   isTurn: boolean;
 };
+
+export type RandomAttackReq = {
+  gameId: number;
+  indexPlayer: number;
+};

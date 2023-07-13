@@ -3,7 +3,7 @@ import WebSocket from 'ws';
 import { wss } from './web_socket_server/index.js';
 import { requestHandler } from './request-handler.js';
 import { EOL } from 'node:os';
-import { handleErrorMessage } from './utils/utils.js';
+import { handleCloseWs, handleErrorMessage } from './utils/utils.js';
 
 const HTTP_PORT = 8181;
 
@@ -17,10 +17,14 @@ wss.on('connection', (ws: WebSocket) => {
     console.log(`Websocket parameter: address: ${parameters.address}; port: ${parameters.port}`);
 
     ws.on('message', (chank: string) => {
-      const response = requestHandler(chank, ws);
-      const result = JSON.stringify(response);
-      console.log(`Result: ${result}`);
+      requestHandler(chank, ws);
     });
+
+    ws.on('close', () => {
+      ws.close();
+      handleCloseWs(ws);
+    });
+  
   } catch (err) {
     const errMessage = handleErrorMessage(err);
     console.log(errMessage);

@@ -1,4 +1,4 @@
-import WebSocket from 'ws';
+import { WebSocket } from 'ws';
 import { wss } from '../web_socket_server/index.js';
 import { NewUser } from '../utils/types.js';
 

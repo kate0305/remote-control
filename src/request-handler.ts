@@ -1,8 +1,8 @@
 import { handleErrorMessage, parseData } from './utils/utils.js';
-import WebSocket from 'ws';
+import { WebSocket } from 'ws';
 import { createUser } from './user/create-user.js';
 import { createRoom, addUserToRoom, updateRoom } from './room/room-handler.js';
-import { addShips, getAttackData } from './game/game-handler.js';
+import { addShips, getAttackData, handleRandomAttack } from './game/game-handler.js';
 
 export const requestHandler = (data: string, ws: WebSocket) => {
   try {
@@ -27,12 +27,12 @@ export const requestHandler = (data: string, ws: WebSocket) => {
         break;
 
       case 'attack':
-        getAttackData(dataNestedParsed, ws);
+        getAttackData(dataNestedParsed, ws, cmd);
         break;
 
-      // case 'randomAttack':
-      //   handleRandomAttack(dataNestedParsed);
-      //   break;
+      case 'randomAttack':
+        getAttackData(dataNestedParsed, ws, cmd);
+        break;
 
       default:
         console.log('Unknown request!');

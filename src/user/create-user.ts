@@ -27,6 +27,7 @@ const handleResponse = (name: string, id: number, error: boolean, errorText: str
     id: 0,
   };
   ws.send(JSON.stringify(answer));
+  console.log(`Response: ${JSON.stringify(answer)}`);
 };
 
 export const createUser = ({ name, password }: RegReq, ws: WebSocket) => {

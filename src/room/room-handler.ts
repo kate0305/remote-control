@@ -4,7 +4,7 @@ import { mapUsers } from '../user/create-user.js';
 import { AddToRoomReq, Room } from '../utils/types.js';
 import { createGame } from '../game/game-handler.js';
 
-const rooms = new Map<number, Room>();
+export const rooms = new Map<number, Room>();
 
 const getUser = (ws: WebSocket) => {
   const userId = mapUsers.get(ws);
@@ -23,6 +23,7 @@ export const createRoom = (ws: WebSocket) => {
     clients.forEach((ws) => {
       const response = updateRoom();
       ws.send(JSON.stringify(response));
+      console.log(`Response: ${JSON.stringify(response)}`);
     });
   } else {
     throw new Error('Such user not exist!');
@@ -44,6 +45,7 @@ export const updateRoom = () => {
   };
   clients.forEach((ws) => {
     ws.send(JSON.stringify(answer));
+    console.log(`Response: ${JSON.stringify(answer)}`);
   });
 };
 
